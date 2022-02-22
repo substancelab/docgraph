@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative "../document"
 require_relative "../word_document_repository"
 
 class Build
@@ -7,6 +8,9 @@ class Build
 
   def call
     word_documents = WordDocumentRepository.from_path(source)
+    documents = word_documents.map do |word_document|
+      Document.new(word_document)
+    end
   end
 
   def destination
