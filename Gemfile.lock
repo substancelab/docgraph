@@ -1,12 +1,20 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    docx (0.6.2)
+      nokogiri (~> 1.10, >= 1.10.4)
+      rubyzip (~> 2.0)
+    nokogiri (1.13.3-arm64-darwin)
+      racc (~> 1.4)
+    racc (1.6.0)
+    rubyzip (2.3.2)
     thor (1.2.1)
 
 PLATFORMS
   arm64-darwin-21
 
 DEPENDENCIES
+  docx
   thor
 
 BUNDLED WITH

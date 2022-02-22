@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
+require "docx"
+
 class Build
   attr_reader :options
 
   def call
     document_paths = collect_document_paths
-    p document_paths
+    collect_documents(document_paths)
   end
 
   def destination
@@ -21,6 +23,12 @@ class Build
   end
 
   private
+
+  def collect_documents(paths)
+    paths.map do |path|
+      Docx::Document.open(path)
+    end
+  end
 
   def collect_document_paths
     Dir.glob("*.docx", :base => source).map do |document|
