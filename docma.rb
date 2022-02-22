@@ -2,6 +2,8 @@
 
 require "thor"
 
+require_relative "lib/commands/build"
+
 class DocmaCLI < Thor
   desc \
     "build",
@@ -10,7 +12,9 @@ class DocmaCLI < Thor
   method_option :source, aliases: "-s", default: "./"
   method_option :destination, aliases: "-s", default: "./build"
   def build
-    puts "build"
+    p options
+    command = Build.new(options)
+    command.call
   end
 
    default_task :build
