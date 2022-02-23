@@ -1,32 +1,10 @@
 # frozen_string_literal: true
 
 require_relative "../document"
+require_relative "../graph"
 require_relative "../word_document_repository"
 
 class Build
-  # A connection between two documents in the document graph
-  class Edge
-    attr_accessor :source, :target
-
-    def initialize(source, target)
-      @source = source
-      @target = target
-    end
-  end
-
-  # A document in the document graph
-  class Node
-    attr_accessor :document
-
-    def initialize(document)
-      @document = document
-    end
-
-    def name
-      document.name
-    end
-  end
-
   attr_reader :options
 
   def call
@@ -55,11 +33,11 @@ class Build
   def build_edges(documents, nodes)
     documents.flat_map do |document|
       name = document.name
-      current_node = nodes.find { |node| node.name == name }
+      current_node = nodes.find { |node| node.data.name == name }
 
       document.parent_names.map do |parent_name|
-        parent_node = nodes.find { |node| node.name == parent_name }
-        Edge.new(current_node, parent_node)
+        parent_node = nodes.find { |node| node.data.name == parent_name }
+        Graph::Edge.new(current_node, parent_node)
       end
     end
   end
@@ -71,7 +49,7 @@ class Build
 
   def build_nodes(documents)
     documents.map do |document|
-      Node.new(document)
+      Graph::Node.new(document)
     end
   end
 
@@ -83,10 +61,11 @@ class Build
   end
 
   def output_tree(node, edges)
-    level = node.document.level.to_i
+    document = node.data
+    level = document.level.to_i
     indent = " " * (level - 1) * 8
 
-    puts [indent, "#{level}: ", node.document.name].join
+    puts [indent, "#{level}: ", document.name].join
     child_edges = edges.select { |edge| edge.target == node }
     child_edges.each do |child_edge|
       child = child_edge.source
