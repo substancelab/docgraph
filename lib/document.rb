@@ -19,8 +19,9 @@ class Document
     metadata["Document name"]
   end
 
-  def parent_name
-    metadata["Parent policies"] || metadata["Parent(s)"]
+  def parent_names
+    names = metadata["Parent policies"] || metadata["Parent(s)"] || ""
+    names.split(",")
   end
 
   def title
