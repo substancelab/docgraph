@@ -12,7 +12,7 @@ class Document
   end
 
   def inspect
-    "#<#{self.class}:#{object_id}>"
+    "#<#{self.class}:#{object_id} name:#{name.inspect}>"
   end
 
   def name

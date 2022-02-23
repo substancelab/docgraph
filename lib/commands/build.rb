@@ -34,7 +34,8 @@ class Build
     documents = word_documents.map do |word_document|
       Document.new(word_document)
     end
-    build_graph(documents)
+    graph = build_graph(documents)
+    output(graph)
   end
 
   def destination
@@ -65,15 +66,29 @@ class Build
 
   def build_graph(documents)
     nodes = build_nodes(documents)
-    puts "#{nodes.size} nodes found"
-
-    edges = build_edges(documents, nodes)
-    puts "#{edges.size} edges found"
+    build_edges(documents, nodes)
   end
 
   def build_nodes(documents)
     documents.map do |document|
       Node.new(document)
+    end
+  end
+
+  def output(edges)
+    roots = edges.select { |edge| edge.target.nil? }
+    roots.each do |edge|
+      output_tree(edge.source, edges)
+    end
+  end
+
+  def output_tree(node, edges)
+    puts node.document.name
+    child_edges = edges.select { |edge| edge.target == node }
+    child_edges.each do |child_edge|
+      child = child_edge.source
+      print "  * "
+      output_tree(child, edges)
     end
   end
 end
