@@ -9,6 +9,7 @@
     "parcel": "^2.3.2"
   },
   "dependencies": {
-    "cytoscape": "^3.21.0"
+    "cytoscape": "^3.21.0",
+    "cytoscape-fcose": "^2.1.0"
   }
 }

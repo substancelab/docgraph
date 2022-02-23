@@ -1,25 +1,51 @@
 import cytoscape from "cytoscape/dist/cytoscape.esm";
+import fcose from 'cytoscape-fcose';
 
 const elements = [
+  { // node group 01
+    data: { id: "01", classes: ["group"] }
+  },
+  { // node group 02
+    data: { id: "02" }
+  },
   { // node a
-    data: { id: "a" }
+    data: { id: "a", parent: "01" }
   },
   { // node b
-    data: { id: "b" }
+    data: { id: "b", parent: "02" }
+  },
+  { // node c
+    data: { id: "c", parent: "02" }
   },
   { // edge ab
     data: { id: "ab", source: "a", target: "b" }
+  },
+  { // edge ac
+    data: { id: "ac", source: "a", target: "c" }
   }
+
 ]
 const layout = {
-  name: "grid",
-  rows: 1
+  animate: false,
+  relativePlacementConstraint: [
+    {top: 'a', bottom: 'b', gap: 200},
+    {left: 'b', right: 'c', gap: 150},
+  ],
+  name: "fcose",
+
 }
 const style = [ // the stylesheet for the graph
   {
     selector: "node",
     style: {
-      "background-color": "#666",
+      "label": "data(id)"
+    }
+  },
+
+  {
+    selector: "node.group",
+    style: {
+      "border-radius": "10px",
       "label": "data(id)"
     }
   },
@@ -31,10 +57,12 @@ const style = [ // the stylesheet for the graph
       "line-color": "#ccc",
       "target-arrow-color": "#ccc",
       "target-arrow-shape": "triangle",
-      "width": 3
+      "width": 2
     }
   }
 ]
+
+cytoscape.use(fcose)
 
 var graph = cytoscape({
   container: document.getElementById("graph"),
