@@ -83,11 +83,13 @@ class Build
   end
 
   def output_tree(node, edges)
-    puts node.document.name
+    level = node.document.level.to_i
+    indent = " " * (level - 1) * 8
+
+    puts [indent, "#{level}: ", node.document.name].join
     child_edges = edges.select { |edge| edge.target == node }
     child_edges.each do |child_edge|
       child = child_edge.source
-      print "  * "
       output_tree(child, edges)
     end
   end

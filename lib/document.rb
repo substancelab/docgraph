@@ -15,6 +15,10 @@ class Document
     "#<#{self.class}:#{object_id} name:#{name.inspect}>"
   end
 
+  def level
+    metadata["Document ID"]
+  end
+
   def name
     metadata["Document name"]
   end
