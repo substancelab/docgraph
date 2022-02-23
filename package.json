@@ -1,14 +1,14 @@
 {
   "source": "html/index.html",
-
   "browserslist": "> 0.5%, last 2 versions, not dead",
-
   "scripts": {
     "build": "parcel build",
     "start": "parcel"
   },
-
   "devDependencies": {
     "parcel": "^2.3.2"
+  },
+  "dependencies": {
+    "cytoscape": "^3.21.0"
   }
 }
