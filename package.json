@@ -1,6 +1,8 @@
 {
   "source": "html/index.html",
 
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+
   "scripts": {
     "build": "parcel build",
     "start": "parcel"
