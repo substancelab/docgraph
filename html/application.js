@@ -1,12 +1,19 @@
 import cytoscape from "cytoscape/dist/cytoscape.esm";
-import fcose from 'cytoscape-fcose';
+import dagre from 'cytoscape-dagre';
+cytoscape.use(dagre)
 
 const elements = [
-  { // node group 01
+  { // group 01
     data: { id: "01", classes: ["group"] }
   },
-  { // node group 02
-    data: { id: "02" }
+  { // group 02
+    data: { id: "02", classes: ["group"] }
+  },
+  { // group 03
+    data: { id: "03", classes: ["group"] }
+  },
+  { // group 04
+    data: { id: "04", classes: ["group"] }
   },
   { // node a
     data: { id: "a", parent: "01" }
@@ -15,26 +22,35 @@ const elements = [
     data: { id: "b", parent: "02" }
   },
   { // node c
-    data: { id: "c", parent: "02" }
+    data: { id: "c", parent: "03" }
+  },
+  { // node d
+    data: { id: "d", parent: "04" }
+  },
+  { // node e
+    data: { id: "e", parent: "04" }
   },
   { // edge ab
     data: { id: "ab", source: "a", target: "b" }
   },
   { // edge ac
     data: { id: "ac", source: "a", target: "c" }
+  },
+  { // edge bd
+    data: { id: "bd", source: "b", target: "d" }
+  },
+  { // edge ae
+    data: { id: "ae", source: "a", target: "e" }
   }
+
 
 ]
 const layout = {
-  animate: false,
-  relativePlacementConstraint: [
-    {top: 'a', bottom: 'b', gap: 200},
-    {left: 'b', right: 'c', gap: 150},
-  ],
-  name: "fcose",
-
+  name: "dagre"
 }
-const style = [ // the stylesheet for the graph
+
+// the stylesheet for the graph
+const style = [
   {
     selector: "node",
     style: {
@@ -43,9 +59,15 @@ const style = [ // the stylesheet for the graph
   },
 
   {
+    selector: 'node:parent',
+    css: {
+      'background-opacity': 0.333
+    }
+  },
+
+  {
     selector: "node.group",
     style: {
-      "border-radius": "10px",
       "label": "data(id)"
     }
   },
@@ -61,8 +83,6 @@ const style = [ // the stylesheet for the graph
     }
   }
 ]
-
-cytoscape.use(fcose)
 
 var graph = cytoscape({
   container: document.getElementById("graph"),
