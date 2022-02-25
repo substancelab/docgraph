@@ -4,11 +4,11 @@ const elements = [
   <% end %>
 
   <% nodes.each.with_index do |node, index| %>
-    <%= ", " unless index.negative? %><%= JSON.generate({:data => {:id => node.data.name, :parent => node.data.level}}) %>
+    <%= ", " unless index.negative? %><%= JSON.generate({:data => {:id => node.data.key, :parent => node.data.level}}) %>
   <% end %>
 
   <% edges.each.with_index do |edge, index| %>
-    , <%= JSON.generate({:data => {:id => "edge#{index}", :source => edge.source.data.name, :target => edge.target.data.name}}) %>
+    , <%= JSON.generate({:data => {:id => "edge#{index}", :source => edge.source.data.key, :target => edge.target.data.key}}) %>
   <% end %>
 ];
 

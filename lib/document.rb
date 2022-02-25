@@ -15,6 +15,12 @@ class Document
     "#<#{self.class}:#{object_id} name:#{name.inspect}>"
   end
 
+  # Returns a key to use for this document. Keys are unique across the entire
+  # graph and aren't meant for human consumption.
+  def key
+    name.tr(" ", "").downcase
+  end
+
   def level
     metadata["Document ID"]
   end
