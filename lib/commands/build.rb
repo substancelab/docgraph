@@ -30,33 +30,36 @@ class Build
 
   private
 
-  def build_edges(documents, nodes)
+  def build_edges(graph, documents)
+    nodes = graph.nodes
     documents.flat_map do |document|
       name = document.name
       current_node = nodes.find { |node| node.data.name == name }
 
       document.parent_names.map do |parent_name|
         parent_node = nodes.find { |node| node.data.name == parent_name }
-        Graph::Edge.new(current_node, parent_node)
+        graph.add_edge(current_node, parent_node)
       end
     end
   end
 
   def build_graph(documents)
-    nodes = build_nodes(documents)
-    build_edges(documents, nodes)
+    graph = Graph.new
+    build_nodes(graph, documents)
+    build_edges(graph, documents)
+    graph
   end
 
-  def build_nodes(documents)
+  def build_nodes(graph, documents)
     documents.map do |document|
-      Graph::Node.new(document)
+      graph.add_node(document)
     end
   end
 
-  def output(edges)
-    roots = edges.select { |edge| edge.target.nil? }
+  def output(graph)
+    roots = graph.edges.select { |edge| edge.target.nil? }
     roots.each do |edge|
-      output_tree(edge.source, edges)
+      output_tree(edge.source, graph.edges)
     end
   end
 

@@ -20,4 +20,19 @@ class Graph
       @data = data
     end
   end
+
+  attr_reader :edges, :nodes
+
+  def add_edge(source, target)
+    @edges << Graph::Edge.new(source, target)
+  end
+
+  def add_node(data)
+    @nodes << Graph::Node.new(data)
+  end
+
+  def initialize
+    @edges = []
+    @nodes = []
+  end
 end
