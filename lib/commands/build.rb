@@ -2,6 +2,7 @@
 
 require_relative "../document"
 require_relative "../graph"
+require_relative "../generators/javascript"
 require_relative "../word_document_repository"
 
 class Build
@@ -14,6 +15,7 @@ class Build
     end
     graph = build_graph(documents)
     output(graph)
+    generate_javascript_file(graph)
   end
 
   def destination
@@ -54,6 +56,10 @@ class Build
     documents.map do |document|
       graph.add_node(document)
     end
+  end
+
+  def generate_javascript_file(graph)
+    Generators::Javascript.new(graph).call
   end
 
   def output(graph)
