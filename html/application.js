@@ -30,7 +30,8 @@ const style = [
   {
     selector: 'node:parent',
     css: {
-      'background-opacity': 0.333
+      'background-opacity': 0.333,
+      "label": "data(id)",
     }
   },
 
