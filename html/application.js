@@ -23,7 +23,7 @@ const style = [
   {
     selector: "node",
     style: {
-      "label": "data(id)"
+      "label": "data(title)"
     }
   },
 

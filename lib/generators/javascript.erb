@@ -4,7 +4,7 @@ const elements = [
   <% end %>
 
   <% nodes.each.with_index do |node, index| %>
-    <%= ", " unless index.negative? %><%= JSON.generate({:data => {:id => node.data.key, :parent => node.data.level}}) %>
+    <%= ", " unless index.negative? %><%= JSON.generate({:data => {:id => node.data.key, :title => node.data.title, :parent => node.data.level}}) %>
   <% end %>
 
   <% edges.each.with_index do |edge, index| %>
