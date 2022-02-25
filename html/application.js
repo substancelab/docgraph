@@ -5,7 +5,17 @@ cytoscape.use(dagre)
 import elements from "./elements"
 
 const layout = {
-  name: "dagre"
+  name: "dagre",
+
+  // Labels should be included in determining the space used by a node
+  nodeDimensionsIncludeLabels: true,
+
+  nodeSep: 100,
+
+  // Flow ranks from top to bottom
+  rankDir: "TB",
+
+  rankSep: 100,
 }
 
 // the stylesheet for the graph
@@ -44,8 +54,12 @@ const style = [
 ]
 
 var graph = cytoscape({
+  autoungrabify: true,
+  autounselectify: true,
   container: document.getElementById("graph"),
   elements: elements,
   layout: layout,
   style: style,
+  userPanningEnabled: false,
+  userZoomingEnabled: false
 });
