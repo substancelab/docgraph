@@ -30,5 +30,3 @@ class DocmaCLI < Thor
 
    default_task :build
 end
-
-DocmaCLI.start(ARGV)
