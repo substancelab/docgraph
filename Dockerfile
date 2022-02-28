@@ -22,5 +22,9 @@ COPY . /usr/src/app
 # create version file
 RUN git log --oneline -n 10 > ./version.txt || true
 
+# Don't run as root
+RUN groupadd -r docma && useradd -r -g docma docma
+USER docma
+
 CMD ["echo cmd"]
 ENTRYPOINT ["bin/docma"]
