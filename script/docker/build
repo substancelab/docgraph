@@ -8,5 +8,6 @@ set -o errexit
 # Enable debugging
 set -x
 
+VERSION=`git log -n 1 | grep commit | cut -f 2 -d " "`
 IMAGE=docma
-docker build -t $IMAGE .
+docker build -t $IMAGE:$VERSION .
