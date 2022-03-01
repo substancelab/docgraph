@@ -4,6 +4,6 @@
 
 The included Docker image runs the following software
 
-- Debian Bullseye
-- Node.js 16.14 (LTS)
-- Ruby 3.1.1 (from https://github.com/docker-library/ruby)
+- Node.js 16.14 LTS (via https://github.com/phusion/passenger-docker)
+- Ruby 3.0.1 (via https://github.com/phusion/passenger-docker)
+- Ubuntu Focal (via https://github.com/phusion/baseimage-docker)

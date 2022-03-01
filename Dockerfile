@@ -1,10 +1,16 @@
-FROM ruby:3.1.1-bullseye
+FROM phusion/passenger-customizable:2.1.0
 
-WORKDIR /usr/src/app
+# Install Ruby 3.0
+RUN /pd_build/ruby-3.0.*.sh
 
-# Install Node.js
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
-RUN apt-get update && apt-get install -y nodejs
+# Install NodeJS
+RUN /pd_build/nodejs.sh
+
+# Clean up APT when done.
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+ENV HOME /root
+WORKDIR /home/app/src
 
 # Install serverside dependencies
 COPY Gemfile Gemfile.lock ./
@@ -16,15 +22,11 @@ RUN bundle install --without development test
 COPY package.json package-lock.json ./
 RUN npm install
 
-# Copy current directory to /usr/src/app
-COPY . /usr/src/app
+# Install the application
+COPY --chown=app:app . /home/app/src
 
 # create version file
 RUN git log --oneline -n 10 > ./version.txt || true
 
-# Don't run as root
-RUN groupadd -r docma && useradd -r -g docma docma
-USER docma
-
-CMD ["echo cmd"]
-ENTRYPOINT ["bin/docma"]
+# Use baseimage-docker's init process.
+CMD ["/sbin/my_init"]
