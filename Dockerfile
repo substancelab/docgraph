@@ -28,5 +28,16 @@ COPY --chown=app:app . /home/app/src
 # create version file
 RUN git log --oneline -n 10 > ./version.txt || true
 
+# Enable keybased SSH user access
+RUN rm -f /etc/service/sshd/down
+COPY docker/ssh/sshd_config.d/* /etc/ssh/sshd_config.d/
+RUN echo "Include /etc/ssh/sshd_config.d/*.conf" >> /etc/ssh/sshd_config
+
+# Allow SSH access for the app user
+COPY docker/ssh/keys/app.pub /home/app/.ssh/app.pub
+RUN cat /home/app/.ssh/app.pub >> /home/app/.ssh/authorized_keys
+RUN chmod 0644 /home/app/.ssh/authorized_keys
+RUN passwd --unlock app
+
 # Use baseimage-docker's init process.
 CMD ["/sbin/my_init"]
