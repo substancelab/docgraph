@@ -22,9 +22,6 @@ RUN bundle install --without development test
 COPY package.json package-lock.json ./
 RUN npm install
 
-# Install the application
-COPY --chown=app:app . /home/app/src
-
 # create version file
 RUN git log --oneline -n 10 > ./version.txt || true
 
@@ -38,6 +35,18 @@ COPY docker/ssh/keys/app.pub /home/app/.ssh/app.pub
 RUN cat /home/app/.ssh/app.pub >> /home/app/.ssh/authorized_keys
 RUN chmod 0644 /home/app/.ssh/authorized_keys
 RUN passwd --unlock app
+
+# Make sure file exchange directories exist
+RUN mkdir /home/app/documents
+RUN mkdir /home/app/logs
+RUN mkdir /home/app/results
+
+# Install the application owned by app user
+COPY --chown=app:app . /home/app/src
+RUN chown --recursive app:app /home/app
+
+# Set up crontab
+RUN crontab -u app /home/app/src/docker/cron/crontab
 
 # Use baseimage-docker's init process.
 CMD ["/sbin/my_init"]
