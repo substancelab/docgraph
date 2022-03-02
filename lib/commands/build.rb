@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "fileutils"
+
 require_relative "../document"
 require_relative "../graph"
 require_relative "../generators/javascript"
@@ -14,7 +16,10 @@ class Build
       Document.new(word_document)
     end
     graph = build_graph(documents)
+
     generate_javascript_file(graph)
+    build_html_site
+    copy_html_site_to_destination
   end
 
   def destination
@@ -57,7 +62,19 @@ class Build
     end
   end
 
+  def build_html_site
+    `npx parcel build`
+  end
+
+  def copy_html_site_to_destination
+    FileUtils.mkdir_p(destination) unless File.exist?(destination)
+
+    files = Dir.glob("./dist/*")
+    FileUtils.cp(files, destination)
+  end
+
   def generate_javascript_file(graph)
-    Generators::Javascript.new(graph).call
+    javascript = Generators::Javascript.new(graph).call
+    File.write("./html/elements.js", javascript)
   end
 end

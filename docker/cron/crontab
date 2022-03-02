@@ -1,1 +1,1 @@
-* * * * * /home/app/src/bin/docma help > /home/app/logs/cron.log 2>&1
+* * * * * /home/app/src/bin/docma build --source=/home/app/documents/ --destination=/home/app/results/ > /home/app/logs/cron.log 2>&1

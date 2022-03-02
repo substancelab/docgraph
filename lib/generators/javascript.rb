@@ -56,7 +56,7 @@ module Generators
 
     def call
       template = ERB.new(File.read("lib/generators/javascript.erb"))
-      puts template.result_with_hash(
+      template.result_with_hash(
         :edges => edges,
         :groups => groups,
         :nodes => nodes,
