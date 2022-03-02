@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Builds a Docker image from Dockerfile
+
+# Fail on errors
+set -o errexit
+
+# Enable debugging
+set -x
+
+VERSION=`git log -n 1 | grep commit | cut -f 2 -d " "`
+IMAGE=docma
+docker build -t $IMAGE:$VERSION .

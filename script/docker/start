@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Fail on errors
+set -o errexit
+
+# Enable debugging
+set -x
+
+CONTAINER_NAME=docma
+
+VERSION=`git log -n 1 | grep commit | cut -f 2 -d " "`
+IMAGE=docma
+
+docker rm $CONTAINER_NAME || echo "No existing container found"
+
+docker run \
+  --name $CONTAINER_NAME \
+  --publish 2222:22 \
+  $IMAGE:$VERSION
