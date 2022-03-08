@@ -155,7 +155,7 @@ function simpleGroupsExample (graph, svg) {
   })
 }
 
-var width = 960; var height = 500
+var width = 960; var height = 1500
 
 const layoutWithHierarchicalGroupingSvg = d3
   .select('body')
