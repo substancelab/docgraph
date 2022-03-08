@@ -81,7 +81,7 @@ module Generators
           {
             "group" => node.data.level,
             "id" => node.data.key,
-            "name" => node.data.name,
+            "name" => node.data.title,
           }
         end
     end
