@@ -10,7 +10,7 @@ function layoutWithHierarchicalGrouping (graph, svg) {
     .size([width, height])
 
   graph.nodes.forEach(function (v) {
-    v.width = 200
+    v.width = 300
     v.height = 95
   })
 
