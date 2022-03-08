@@ -1,10 +1,10 @@
 import * as d3 from "d3"
+import * as webcola from "webcola"
 
 var width = 960, height = 500;
 
-var color = d3.scaleOrdinal(d3.schemeCategory20);
-
-var cola = cola.d3adaptor(d3)
+var color = d3.scaleLinear().domain([1,10]).range(["white", "blue"])
+var cola = webcola.d3adaptor(d3)
 .linkDistance(80)
 .avoidOverlaps(true)
 .handleDisconnected(false)
@@ -13,7 +13,7 @@ var cola = cola.d3adaptor(d3)
 var svg = d3.select("body").append("svg")
 .attr("width", width)
 .attr("height", height);
-d3.json("./elements.json", function (error, graph) {
+d3.json("./elements.json").then((graph) => {
 
 graph.nodes.forEach(function (v) {
     v.width = v.height = 95;
