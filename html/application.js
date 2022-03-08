@@ -23,11 +23,24 @@ function layoutWithHierarchicalGrouping (graph, svg) {
       "axis": "y",
       "offsets": []
     }
+
+    let previousNode = undefined
     group.leaves.forEach((leaf) => {
       constraint.offsets.push({
         "node": leaf,
         "offset": 0
       })
+
+      if (previousNode) {
+        constraints.push({
+          "axis": "x",
+          "left": previousNode,
+          "right": leaf,
+          "gap": 150
+        })
+      }
+
+      previousNode = leaf
     })
 
     constraints.push(constraint)
