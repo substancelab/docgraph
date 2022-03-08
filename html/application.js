@@ -6,7 +6,6 @@ function layoutWithHierarchicalGrouping (graph, svg) {
   const cola = webcola.d3adaptor(d3)
     .linkDistance(80)
     .avoidOverlaps(true)
-    .handleDisconnected(false)
     .size([width, height])
 
   graph.nodes.forEach(function (v) {
