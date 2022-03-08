@@ -29,6 +29,14 @@ function layoutWithHierarchicalGrouping (graph, svg) {
     .attr('class', 'group')
     .style('fill', function (d, i) { return color(i) })
 
+  const groupLabel = svg.selectAll('.group-label')
+    .data(graph.groups)
+    .enter().append('text')
+    .attr('class', 'group-label')
+    .style('fill', 'black')
+    .style('font-size', '24px')
+    .text(function (d) { return d.name })
+
   const link = svg.selectAll('.link')
     .data(graph.links)
     .enter().append('line')
@@ -80,6 +88,13 @@ function layoutWithHierarchicalGrouping (graph, svg) {
         const h = this.getBBox().height
         return d.y + h / 4
       })
+
+    groupLabel
+      .attr('x', function (d) { return d.bounds.x - 15 })
+      .attr('y', function (d) {
+        return d.bounds.y + 55
+      })
+
   })
 }
 
