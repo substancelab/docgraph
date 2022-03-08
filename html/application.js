@@ -15,11 +15,26 @@ function layoutWithHierarchicalGrouping (graph, svg) {
 
   const groups = graph.groups || []
   groups.forEach(function (g) { g.padding = 0.01 })
+
+  const centerGraph = true
+  const gridSnapIterations = 50
+  const initialAllConstraintIterations = 10
+  const initialUnconstrainedIterations = 40
+  const initialUserConstraintIterations = 50
+  const keepRunning = true
+
   cola
     .nodes(graph.nodes)
     .links(graph.links)
     .groups(groups)
-    .start(100, 0, 50, 50)
+    .start(
+      initialUnconstrainedIterations,
+      initialUserConstraintIterations,
+      initialAllConstraintIterations,
+      gridSnapIterations,
+      keepRunning,
+      centerGraph
+    )
 
   const group = svg.selectAll('.group')
     .data(groups)
