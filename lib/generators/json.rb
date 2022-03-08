@@ -31,7 +31,8 @@ module Generators
     def call
       results = {
         "nodes" => nodes,
-        "links" => links
+        "links" => links,
+        "groups" => groups
       }.to_json
     end
 
@@ -48,7 +49,18 @@ module Generators
     end
 
     def groups
-      graph.nodes.map { |node| node.data.level }.uniq
+      levels = graph.nodes.map { |node| node.data.level }.uniq
+      levels.map { |level|
+        {
+          "leaves" => graph.nodes.map.with_index { |node, index|
+            if node.data.level == level
+              index
+            else
+              nil
+            end
+          }.compact
+        }
+      }
     end
 
     def nodes
