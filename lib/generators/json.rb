@@ -70,7 +70,7 @@ module Generators
 
     # Returns the index of node in list of nodes, nil if not found
     def node_index(node)
-      graph.nodes.index { |candidate| candidate == node }
+      nodes.index { |candidate| candidate["id"] == node.data.key }
     end
 
     def nodes
