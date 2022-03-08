@@ -13,8 +13,7 @@ var cola = cola.d3adaptor(d3)
 var svg = d3.select("body").append("svg")
 .attr("width", width)
 .attr("height", height);
-
-d3.json("graphdata/smallgrouped.json", function (error, graph) {
+d3.json("./elements.json", function (error, graph) {
 
 graph.nodes.forEach(function (v) {
     v.width = v.height = 95;
