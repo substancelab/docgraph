@@ -16,6 +16,23 @@ function layoutWithHierarchicalGrouping (graph, svg) {
   const groups = graph.groups || []
   groups.forEach(function (g) { g.padding = 0.01 })
 
+  const constraints = []
+  groups.forEach((group) => {
+    const constraint = {
+      "type": "alignment",
+      "axis": "y",
+      "offsets": []
+    }
+    group.leaves.forEach((leaf) => {
+      constraint.offsets.push({
+        "node": leaf,
+        "offset": 0
+      })
+    })
+
+    constraints.push(constraint)
+  })
+
   const centerGraph = true
   const gridSnapIterations = 50
   const initialAllConstraintIterations = 10
@@ -27,6 +44,7 @@ function layoutWithHierarchicalGrouping (graph, svg) {
     .nodes(graph.nodes)
     .links(graph.links)
     .groups(groups)
+    .constraints(constraints)
     .start(
       initialUnconstrainedIterations,
       initialUserConstraintIterations,
