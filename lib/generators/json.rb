@@ -51,26 +51,34 @@ module Generators
     def groups
       levels = graph.nodes.map { |node| node.data.level }.uniq
       levels.map { |level|
+        nodes_in_level = graph.nodes.select { |node|
+          node if node.data.level == level
+        }
+
+        leaves = nodes_in_level.map { |node| node_index(node) }
+
         {
-          "leaves" => graph.nodes.map.with_index { |node, index|
-            if node.data.level == level
-              index
-            else
-              nil
-            end
-          }.compact
+          "leaves" => leaves
         }
       }
     end
 
+    # Returns the index of node in list of nodes, nil if not found
+    def node_index(node)
+      graph.nodes.index { |candidate| candidate == node }
+    end
+
     def nodes
-      graph.nodes.map { |node|
-        {
-          "group" => node.data.level,
-          "id" => node.data.key,
-          "name" => node.data.name,
-        }
-      }
+      graph.
+        nodes.
+        sort_by { |node| node.data.level }.
+        map do |node|
+          {
+            "group" => node.data.level,
+            "id" => node.data.key,
+            "name" => node.data.name,
+          }
+        end
     end
   end
 end
