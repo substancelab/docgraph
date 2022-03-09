@@ -25,24 +25,11 @@ function layoutWithHierarchicalGrouping (graph, svg) {
       "offsets": []
     }
 
-    let previousNode = undefined
     group.leaves.forEach((leaf) => {
       constraint.offsets.push({
         "node": leaf,
         "offset": 0
       })
-
-      // Add an inequality constraint saying there must be a 150 pixels gap
-      // between the center of the previous node and this leaf node.
-      if (previousNode) {
-        constraints.push({
-          "axis": "x",
-          "left": previousNode,
-          "right": leaf,
-          "gap": 150
-        })
-      }
-      previousNode = leaf
     })
 
     // Add an inequality constraint for all nodes in this group saying there
