@@ -11,7 +11,7 @@ html {
 
 .graph {
   border: 2px dashed #999999;
-  height: 1500px;
+  height: 60vh;
   overflow: hidden;
-  width: 1500px;
+  width: 80vw;
 }

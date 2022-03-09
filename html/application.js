@@ -1,12 +1,19 @@
 import * as d3 from 'd3'
 import * as webcola from 'webcola'
 
-function layoutWithHierarchicalGrouping (graph, svg) {
+zoomToFit = function() {
+  const outer = layoutWithHierarchicalGroupingSvg
+  const svg = outer.node()
+  const boundingBox = svg.getBBox()
+  svg.setAttribute('viewBox', boundingBox.x + ',' + boundingBox.y + ',' + boundingBox.width + ',' + boundingBox.height);
+}
+
+function layoutWithHierarchicalGrouping(graph, svg) {
   const color = d3.scaleLinear().domain([1, 10]).range(['lightBlue', 'blue'])
   const cola = webcola.d3adaptor(d3)
     .linkDistance(80)
     .avoidOverlaps(true)
-    .size([width, height])
+    .size([3000, 4000])
 
   graph.nodes.forEach(function (v) {
     v.width = 300
@@ -147,9 +154,10 @@ function layoutWithHierarchicalGrouping (graph, svg) {
       .attr('y', function (d) {
         return d.bounds.y + 55
       })
+
+    zoomToFit()
   })
 }
-
 const target = document.querySelector("[data-role=graph]")
 const width = target.clientWidth
 const height = target.clientHeight
