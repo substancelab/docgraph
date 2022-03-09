@@ -17,6 +17,7 @@ function layoutWithHierarchicalGrouping (graph, svg) {
   groups.forEach(function (g) { g.padding = 0.01 })
 
   const constraints = []
+  let previousGroup = undefined
   groups.forEach((group) => {
     const constraint = {
       "type": "alignment",
@@ -31,6 +32,8 @@ function layoutWithHierarchicalGrouping (graph, svg) {
         "offset": 0
       })
 
+      // Add an inequality constraint saying there must be a 150 pixels gap
+      // between the center of the previous node and this leaf node.
       if (previousNode) {
         constraints.push({
           "axis": "x",
@@ -39,9 +42,28 @@ function layoutWithHierarchicalGrouping (graph, svg) {
           "gap": 150
         })
       }
-
       previousNode = leaf
     })
+
+    // Add an inequality constraint for all nodes in this group saying there
+    // must be a 150 pixels gap on the y axis between all nodes in the previous group
+    if (previousGroup) {
+      const nodesInPreviousGroup = previousGroup.leaves
+      const nodesInThisGroup = group.leaves
+
+      nodesInThisGroup.forEach((thisNode) => {
+        nodesInPreviousGroup.forEach((otherNode) => {
+          constraints.push({
+            "axis": "y",
+            "left": otherNode,
+            "right": thisNode,
+            "gap": 150
+          })
+
+        })
+      })
+    }
+    previousGroup = group
 
     constraints.push(constraint)
   })
