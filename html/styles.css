@@ -9,12 +9,7 @@ html {
   padding: 0;
 }
 
-svg {
+.graph {
   border: 2px dashed #999999;
-}
-
-#graph {
-  display: block;
-  height: 100vh;
-  width: 100vw;
+  overflow: hidden;
 }
