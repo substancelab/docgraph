@@ -175,9 +175,6 @@ const layoutWithHierarchicalGroupingSvg = d3
   .append('svg')
   .attr('width', width)
   .attr('height', height)
-  .call(d3.zoom().on("zoom", function (e) {
-    layoutWithHierarchicalGroupingSvg.attr("transform", e.transform)
-  }))
 
 d3.json('./elements.json').then((data) => {
   layoutWithHierarchicalGrouping(data, layoutWithHierarchicalGroupingSvg)
