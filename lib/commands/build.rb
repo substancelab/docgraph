@@ -5,6 +5,7 @@ require "fileutils"
 require_relative "../document"
 require_relative "../graph"
 require_relative "../generators/javascript"
+require_relative "../generators/json"
 require_relative "../word_document_repository"
 
 class Build
@@ -17,7 +18,8 @@ class Build
     end
     graph = build_graph(documents)
 
-    generate_javascript_file(graph)
+    # generate_javascript_file(graph)
+    generate_json_file(graph)
     build_html_site
     copy_html_site_to_destination
   end
@@ -76,5 +78,10 @@ class Build
   def generate_javascript_file(graph)
     javascript = Generators::Javascript.new(graph).call
     File.write("./html/elements.js", javascript)
+  end
+
+  def generate_json_file(graph)
+    json = Generators::Json.new(graph).call
+    File.write("./data/elements.json", json)
   end
 end
