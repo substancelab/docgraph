@@ -5,7 +5,15 @@ zoomToFit = function() {
   const outer = layoutWithHierarchicalGroupingSvg
   const svg = outer.node()
   const boundingBox = svg.getBBox()
-  svg.setAttribute('viewBox', boundingBox.x + ',' + boundingBox.y + ',' + boundingBox.width + ',' + boundingBox.height);
+
+  const padding = 20
+
+  const left = boundingBox.x - padding
+  const top = boundingBox.y - padding
+  const width = boundingBox.width + padding * 2
+  const height = boundingBox.height + padding * 2
+
+  svg.setAttribute('viewBox', left + ',' + top + ',' + width + ',' + height);
 }
 
 function layoutWithHierarchicalGrouping(graph, svg) {
