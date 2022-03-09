@@ -150,8 +150,9 @@ function layoutWithHierarchicalGrouping (graph, svg) {
   })
 }
 
-const width = 960
-const height = 1500
+const target = document.querySelector("[data-role=graph]")
+const width = target.clientWidth
+const height = target.clientHeight
 
 const layoutWithHierarchicalGroupingSvg = d3
   .select('[data-role=graph]')
