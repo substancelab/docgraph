@@ -17,18 +17,18 @@ function layoutWithHierarchicalGrouping (graph, svg) {
   groups.forEach(function (g) { g.padding = 0.01 })
 
   const constraints = []
-  let previousGroup = undefined
+  let previousGroup
   groups.forEach((group) => {
     const constraint = {
-      "type": "alignment",
-      "axis": "y",
-      "offsets": []
+      type: 'alignment',
+      axis: 'y',
+      offsets: []
     }
 
     group.leaves.forEach((leaf) => {
       constraint.offsets.push({
-        "node": leaf,
-        "offset": 0
+        node: leaf,
+        offset: 0
       })
     })
 
@@ -41,12 +41,11 @@ function layoutWithHierarchicalGrouping (graph, svg) {
       nodesInThisGroup.forEach((thisNode) => {
         nodesInPreviousGroup.forEach((otherNode) => {
           constraints.push({
-            "axis": "y",
-            "left": otherNode,
-            "right": thisNode,
-            "gap": 150
+            axis: 'y',
+            left: otherNode,
+            right: thisNode,
+            gap: 150
           })
-
         })
       })
     }
@@ -148,11 +147,11 @@ function layoutWithHierarchicalGrouping (graph, svg) {
       .attr('y', function (d) {
         return d.bounds.y + 55
       })
-
   })
 }
 
-var width = 960; var height = 1500
+const width = 960
+const height = 1500
 
 const layoutWithHierarchicalGroupingSvg = d3
   .select('body')
