@@ -95,6 +95,7 @@ function layoutWithHierarchicalGrouping (graph, svg) {
     .links(graph.links)
     .groups(groups)
     .constraints(constraints)
+    .handleDisconnected(false)
     .start(
       initialUnconstrainedIterations,
       initialUserConstraintIterations,
