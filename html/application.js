@@ -1,7 +1,7 @@
 import * as d3 from 'd3'
 import * as webcola from 'webcola'
 
-zoomToFit = function() {
+const zoomToFit = function () {
   const outer = layoutWithHierarchicalGroupingSvg
   const svg = outer.node()
   const boundingBox = svg.getBBox()
@@ -13,10 +13,10 @@ zoomToFit = function() {
   const width = boundingBox.width + padding * 2
   const height = boundingBox.height + padding * 2
 
-  svg.setAttribute('viewBox', left + ',' + top + ',' + width + ',' + height);
+  svg.setAttribute('viewBox', left + ',' + top + ',' + width + ',' + height)
 }
 
-function layoutWithHierarchicalGrouping(graph, svg) {
+function layoutWithHierarchicalGrouping (graph, svg) {
   const color = d3.scaleLinear().domain([1, 10]).range(['lightBlue', 'blue'])
   const cola = webcola.d3adaptor(d3)
     .linkDistance(80)
@@ -166,7 +166,8 @@ function layoutWithHierarchicalGrouping(graph, svg) {
     zoomToFit()
   })
 }
-const target = document.querySelector("[data-role=graph]")
+
+const target = document.querySelector('[data-role=graph]')
 const width = target.clientWidth
 const height = target.clientHeight
 
