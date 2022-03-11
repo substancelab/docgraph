@@ -108,7 +108,7 @@ function layoutWithHierarchicalGrouping (graph, svg) {
   const group = svg.selectAll('.group')
     .data(groups)
     .enter().append('rect')
-    .attr('rx', 8).attr('ry', 8)
+    .attr('rx', 18).attr('ry', 18)
     .attr('class', 'group')
 
   const groupLabel = svg.selectAll('.group-label')
