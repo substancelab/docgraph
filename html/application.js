@@ -92,6 +92,8 @@ function layoutWithHierarchicalGrouping (graph, svg) {
       centerGraph
     )
 
+  const nodeMargin = 10
+
   const group = svg.selectAll('.group')
     .data(groups)
     .enter().append('rect')
@@ -115,8 +117,8 @@ function layoutWithHierarchicalGrouping (graph, svg) {
     .data(graph.nodes)
     .enter().append('rect')
     .attr('class', 'node')
-    .attr('width', function (d) { return d.width })
-    .attr('height', function (d) { return d.height })
+    .attr('width', function (d) { return d.width - nodeMargin * 2 })
+    .attr('height', function (d) { return d.height - nodeMargin * 2 })
     .attr('rx', 5).attr('ry', 5)
     .style('fill', function (d) { return color(groups.length) })
 
@@ -139,8 +141,8 @@ function layoutWithHierarchicalGrouping (graph, svg) {
 
     // Anchor nodes so their center is on the x,y position
     node
-      .attr('x', function (d) { return d.x - d.width / 2 })
-      .attr('y', function (d) { return d.y - d.height / 2})
+      .attr('x', function (d) { return d.x - d.width / 2 + nodeMargin })
+      .attr('y', function (d) { return d.y - d.height  / 2 + nodeMargin })
 
     // Text elements are anchored so that their center is on the nodes x,y
     // position
