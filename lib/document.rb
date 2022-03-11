@@ -7,7 +7,8 @@
 class Document
   attr_reader :word_document
 
-  def initialize(word_document)
+  def initialize(word_document, metadata: nil)
+    @metadata = metadata
     @word_document = word_document
   end
 
