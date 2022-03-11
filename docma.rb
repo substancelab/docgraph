@@ -12,6 +12,7 @@ class DocmaCLI < Thor
     "the visual graph of their relationships."
   method_option :source, aliases: "-s", default: "./"
   method_option :destination, aliases: "-s", default: "./build"
+  method_option :logfile, aliases: "-l"
   def build
     command = Build.new(options)
     command.call

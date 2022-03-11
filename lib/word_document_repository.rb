@@ -9,7 +9,7 @@ class WordDocumentRepository
 
   attr_reader :documents
 
-  def_delegators :documents, :each, :map
+  def_delegators :documents, :each, :map, :size
 
   class << self
     def from_path(path)

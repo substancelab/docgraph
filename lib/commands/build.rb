@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "fileutils"
+require "logging"
 
 require_relative "../document"
 require_relative "../graph"
@@ -13,11 +14,13 @@ class Build
 
   def call
     word_documents = WordDocumentRepository.from_path(source)
+
+    logger.info { "Parsing #{word_documents.size} Word documents" }
+
     documents = word_documents.map do |word_document|
       Document.new(word_document)
     end
     graph = build_graph(documents)
-
     # generate_javascript_file(graph)
     generate_json_file(graph)
     build_html_site
@@ -65,10 +68,13 @@ class Build
   end
 
   def build_html_site
+    logger.info { "Building HTML results" }
     `npx parcel build`
   end
 
   def copy_html_site_to_destination
+    logger.info { "Moving HTML results to destination" }
+
     FileUtils.mkdir_p(destination) unless File.exist?(destination)
 
     files = Dir.glob("./dist/*")
@@ -81,7 +87,23 @@ class Build
   end
 
   def generate_json_file(graph)
+    logger.info { "Generating JSON output" }
     json = Generators::Json.new(graph).call
     File.write("./data/elements.json", json)
+  end
+
+  def logger
+    return @logger if @logger
+
+    @logger = Logging.logger["log"]
+    @logger.level = :info
+
+    if options[:logfile]
+      @logger.add_appenders(
+        Logging.appenders.file(options[:logfile])
+      )
+    end
+
+    @logger
   end
 end
