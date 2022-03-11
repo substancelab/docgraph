@@ -19,5 +19,5 @@ RSpec.describe Document do
       document = Document.new(:word_document, metadata: metadata)
       expect(document.category).to be(nil)
     end
-end
+  end
 end
