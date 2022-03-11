@@ -1,6 +1,9 @@
 import * as d3 from 'd3'
 import * as webcola from 'webcola'
 
+import { textwrap } from 'd3-textwrap';
+d3.textwrap = textwrap;
+
 const zoomToFit = function () {
   const outer = layoutWithHierarchicalGroupingSvg
   const svg = outer.node()
@@ -19,6 +22,12 @@ const zoomToFit = function () {
 function layoutWithHierarchicalGrouping (graph, svg) {
   const groupPadding = 20
   const nodeMargin = 10
+  const nodePadding = 20
+
+  const nodeDimensions = {
+    height: 90,
+    width: 300
+  }
 
   const color = d3.scaleLinear().domain([1, 10]).range(['lightBlue', 'blue'])
   const cola = webcola.d3adaptor(d3)
@@ -27,8 +36,8 @@ function layoutWithHierarchicalGrouping (graph, svg) {
     .size([3000, 4000])
 
   graph.nodes.forEach(function (v) {
-    v.width = 300
-    v.height = 95
+    v.width = nodeDimensions.width
+    v.height = nodeDimensions.height
   })
 
   const groups = graph.groups || []
@@ -123,13 +132,20 @@ function layoutWithHierarchicalGrouping (graph, svg) {
     .attr('rx', 5).attr('ry', 5)
     .style('fill', function (d) { return color(groups.length) })
 
+  const nodeLabelWrapper = d3
+    .textwrap()
+    .bounds({
+      height: nodeDimensions.height - nodePadding * 2,
+      width: nodeDimensions.width - nodePadding * 2
+    })
+    .method("tspans")
   const nodeLabel = svg.selectAll('.label')
     .data(graph.nodes)
     .enter().append('text')
     .attr('class', 'label')
-    .style('text-anchor', 'middle')
-    .attr('dy', '0.2em')
+    .attr('dominant-baseline', 'hanging')
     .text(function (d) { return d.name })
+    .call(nodeLabelWrapper)
 
   node.append('title')
     .text(function (d) { return d.name })
@@ -145,11 +161,11 @@ function layoutWithHierarchicalGrouping (graph, svg) {
       .attr('x', function (d) { return d.x - d.width / 2 + nodeMargin })
       .attr('y', function (d) { return d.y - d.height  / 2 + nodeMargin })
 
-    // Text elements are anchored so that their center is on the nodes x,y
-    // position
+    // Text elements are anchored so that their top left corner is on the nodes
+    // x,y position + padding
     nodeLabel
-      .attr('x', function (node) { return node.x })
-      .attr('y', function (node) { return node.y })
+      .attr('x', function (node) { return node.x - node.width / 2 + nodeMargin + nodePadding })
+      .attr('y', function (node) { return node.y - node.height / 2 + nodeMargin + nodePadding })
 
     group.attr('x', function (d) { return d.bounds.x })
       .attr('y', function (d) { return d.bounds.y })
