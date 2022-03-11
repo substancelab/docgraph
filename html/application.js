@@ -4,6 +4,12 @@ import * as webcola from 'webcola'
 import { textwrap } from 'd3-textwrap';
 d3.textwrap = textwrap;
 
+const handleZoom = function (event) {
+  d3
+    .select('svg g')
+    .attr('transform', event.transform);
+}
+
 const zoomToFit = function () {
   const outer = layoutWithHierarchicalGroupingSvg
   const svg = outer.node()
@@ -20,6 +26,8 @@ const zoomToFit = function () {
 }
 
 function layoutWithHierarchicalGrouping (graph, svg) {
+  if (!svg) { return }
+
   const groupPadding = 10
   const nodeMargin = 10
   const nodePadding = 20
@@ -105,24 +113,28 @@ function layoutWithHierarchicalGrouping (graph, svg) {
       centerGraph
     )
 
-  const group = svg.selectAll('.group')
+  // Wrap the entire graph in a single g element. This allows us to use the g
+  // element for zooming and translating the graph
+  const graphOutlet = svg.append("g")
+
+  const group = graphOutlet.selectAll('.group')
     .data(groups)
     .enter().append('rect')
     .attr('rx', 18).attr('ry', 18)
     .attr('class', 'group')
 
-  const groupLabel = svg.selectAll('.group-label')
+  const groupLabel = graphOutlet.selectAll('.group-label')
     .data(graph.groups)
     .enter().append('text')
     .attr('class', 'group-label')
     .text(function (d) { return d.name })
 
-  const link = svg.selectAll('.link')
+  const link = graphOutlet.selectAll('.link')
     .data(graph.links)
     .enter().append('line')
     .attr('class', 'link')
 
-  const node = svg.selectAll('.node')
+  const node = graphOutlet.selectAll('.node')
     .data(graph.nodes)
     .enter().append('rect')
     .attr('class', 'node')
@@ -137,7 +149,7 @@ function layoutWithHierarchicalGrouping (graph, svg) {
       width: nodeDimensions.width - nodePadding * 2
     })
     .method("tspans")
-  const nodeLabel = svg.selectAll('.label')
+  const nodeLabel = graphOutlet.selectAll('.label')
     .data(graph.nodes)
     .enter().append('text')
     .attr('class', 'label')
@@ -178,6 +190,10 @@ function layoutWithHierarchicalGrouping (graph, svg) {
       })
 
     zoomToFit()
+
+    // Setup zoom and panning
+    const zoom = d3.zoom().on('zoom', handleZoom)
+    svg.call(zoom)
   })
 }
 
