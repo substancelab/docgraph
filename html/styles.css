@@ -36,9 +36,8 @@ html {
 }
 
 .label {
-    cursor: move;
-    fill: #ffffff;
-    text-anchor: middle;
+  fill: #000000;
+  text-anchor: middle;
 }
 
 .node {

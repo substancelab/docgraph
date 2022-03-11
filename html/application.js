@@ -130,7 +130,6 @@ function layoutWithHierarchicalGrouping (graph, svg) {
     .data(graph.nodes)
     .enter().append('text')
     .attr('class', 'label')
-    .style('fill', 'black')
     .text(function (d) { return d.name })
     .call(cola.drag)
 
