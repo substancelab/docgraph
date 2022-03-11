@@ -120,18 +120,12 @@ function layoutWithHierarchicalGrouping (graph, svg) {
     .attr('height', function (d) { return d.height - 2 * pad })
     .attr('rx', 5).attr('ry', 5)
     .style('fill', function (d) { return color(groups.length) })
-    .call(cola.drag)
-    .on('mouseup', function (d) {
-      d.fixed = 0
-      cola.alpha(1) // fire it off again to satify gridify
-    })
 
   const label = svg.selectAll('.label')
     .data(graph.nodes)
     .enter().append('text')
     .attr('class', 'label')
     .text(function (d) { return d.name })
-    .call(cola.drag)
 
   node.append('title')
     .text(function (d) { return d.name })

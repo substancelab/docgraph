@@ -19,7 +19,6 @@ html {
 }
 
 .group {
-  cursor: move;
   opacity: 0.7;
   stroke: #ffffff;
   stroke-width: 1.5px;
@@ -41,7 +40,6 @@ html {
 }
 
 .node {
-  cursor: move;
   stroke: #ffffff;
   stroke-width: 1.5px;
 }
