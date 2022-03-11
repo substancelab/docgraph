@@ -38,6 +38,10 @@ module Generators
 
     private
 
+    def categories
+      @categories ||= graph.nodes.map { |node| node.data.category }.uniq
+    end
+
     def links
       edges = graph.edges.select { |edge| edge.source && edge.target }
       edges.map { |edge|
@@ -49,23 +53,17 @@ module Generators
     end
 
     def groups
-      groups = levels.map do |level|
-        nodes_in_level = graph.nodes.select do |node|
-          node.data.level == level
-        end
-
-        leaves = nodes_in_level.map { |node| node_index(node) }
+      groups = categories.map do |category|
+        leaves = nodes_in_category(category).map { |node| node_index(node) }
+        level = Document::LEVELS.fetch(category, 0)
 
         {
           "leaves" => leaves,
-          "name" => level
+          "level" => level,
+          "name" => category
         }
       end
-      groups.sort_by { |group| group["name"] }
-    end
-
-    def levels
-      @levels ||= graph.nodes.map { |node| node.data.level }.uniq
+      groups.sort_by { |group| group["level"] }
     end
 
     # Returns the index of node in list of nodes, nil if not found
@@ -84,6 +82,12 @@ module Generators
             "name" => node.data.title,
           }
         end
+    end
+
+    def nodes_in_category(category)
+      graph.nodes.select do |node|
+        node.data.category == category
+      end
     end
   end
 end

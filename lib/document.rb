@@ -7,6 +7,14 @@
 class Document
   attr_reader :word_document
 
+  LEVELS = {
+    "Strategy" => 1,
+    "KeyPolicy" => 3,
+    "Process" => 5,
+    "Procedure" => 6,
+    "WorkInstruction" => 7
+  }.freeze
+
   def category
     return nil if name.nil?
 
@@ -29,7 +37,7 @@ class Document
   end
 
   def level
-    category
+    LEVELS.fetch(category)
   end
 
   def name
