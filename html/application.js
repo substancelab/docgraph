@@ -111,13 +111,12 @@ function layoutWithHierarchicalGrouping (graph, svg) {
     .enter().append('line')
     .attr('class', 'link')
 
-  const pad = 20
   const node = svg.selectAll('.node')
     .data(graph.nodes)
     .enter().append('rect')
     .attr('class', 'node')
-    .attr('width', function (d) { return d.width - 2 * pad })
-    .attr('height', function (d) { return d.height - 2 * pad })
+    .attr('width', function (d) { return d.width })
+    .attr('height', function (d) { return d.height })
     .attr('rx', 5).attr('ry', 5)
     .style('fill', function (d) { return color(groups.length) })
 
@@ -136,13 +135,11 @@ function layoutWithHierarchicalGrouping (graph, svg) {
       .attr('x2', function (d) { return d.target.x })
       .attr('y2', function (d) { return d.target.y })
 
-    node.attr('x', function (d) { return d.x - d.width / 2 + pad })
-      .attr('y', function (d) { return d.y - d.height / 2 + pad })
-    label.attr('x', function (d) { return d.x })
-      .attr('y', function (d) {
-        const h = this.getBBox().height
-        return d.y + h / 4
-      })
+    node.attr('x', function (d) { return d.x})
+      .attr('y', function (d) { return d.y })
+    label
+      .attr('x', function (node) { return node.x })
+      .attr('y', function (node) { return node.y })
 
     group.attr('x', function (d) { return d.bounds.x })
       .attr('y', function (d) { return d.bounds.y })
@@ -150,10 +147,10 @@ function layoutWithHierarchicalGrouping (graph, svg) {
       .attr('height', function (d) { return d.bounds.height() })
     groupLabel
       .attr('x', function (d) {
-        return d.bounds.x + d.padding
+        return d.bounds.x
       })
       .attr('y', function (d) {
-        return d.bounds.y + d.padding + 5
+        return d.bounds.y
       })
 
     zoomToFit()
