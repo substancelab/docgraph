@@ -10,6 +10,7 @@ class Document
   LEVELS = {
     "Strategy" => 1,
     "KeyPolicy" => 3,
+    "Guideline" => 4,
     "Process" => 5,
     "Procedure" => 6,
     "WorkInstruction" => 7
