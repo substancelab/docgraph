@@ -17,6 +17,9 @@ const zoomToFit = function () {
 }
 
 function layoutWithHierarchicalGrouping (graph, svg) {
+  const groupPadding = 20
+  const nodeMargin = 10
+
   const color = d3.scaleLinear().domain([1, 10]).range(['lightBlue', 'blue'])
   const cola = webcola.d3adaptor(d3)
     .linkDistance(80)
@@ -30,7 +33,7 @@ function layoutWithHierarchicalGrouping (graph, svg) {
 
   const groups = graph.groups || []
   groups.forEach(function (g) {
-    g.padding = 20
+    g.padding = groupPadding
   })
 
   const constraints = []
@@ -91,8 +94,6 @@ function layoutWithHierarchicalGrouping (graph, svg) {
       keepRunning,
       centerGraph
     )
-
-  const nodeMargin = 10
 
   const group = svg.selectAll('.group')
     .data(groups)
