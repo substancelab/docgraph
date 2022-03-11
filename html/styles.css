@@ -1,5 +1,7 @@
 body {
   background: #ffffff;
+  font-family: Verdana;
+  font-size: 14px;
   margin: 0;
   padding: 0;
 }
@@ -24,7 +26,7 @@ html {
 }
 
 .group-label {
-  font-size: 24px;
+  font-weight: bold;
 }
 
 .link {
@@ -36,8 +38,6 @@ html {
 .label {
     cursor: move;
     fill: #ffffff;
-    font-family: Verdana;
-    font-size: 14px;
     text-anchor: middle;
 }
 

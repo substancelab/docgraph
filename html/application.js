@@ -29,7 +29,9 @@ function layoutWithHierarchicalGrouping (graph, svg) {
   })
 
   const groups = graph.groups || []
-  groups.forEach(function (g) { g.padding = 0.01 })
+  groups.forEach(function (g) {
+    g.padding = 20
+  })
 
   const constraints = []
   let previousGroup
@@ -156,9 +158,11 @@ function layoutWithHierarchicalGrouping (graph, svg) {
       })
 
     groupLabel
-      .attr('x', function (d) { return d.bounds.x - 15 })
+      .attr('x', function (d) {
+        return d.bounds.x + d.padding
+      })
       .attr('y', function (d) {
-        return d.bounds.y + 55
+        return d.bounds.y + d.padding + 5
       })
 
     zoomToFit()
