@@ -124,6 +124,8 @@ function layoutWithHierarchicalGrouping (graph, svg) {
     .data(graph.nodes)
     .enter().append('text')
     .attr('class', 'label')
+    .style('text-anchor', 'middle')
+    .attr('dy', '0.2em')
     .text(function (d) { return d.name })
 
   node.append('title')
@@ -135,8 +137,13 @@ function layoutWithHierarchicalGrouping (graph, svg) {
       .attr('x2', function (d) { return d.target.x })
       .attr('y2', function (d) { return d.target.y })
 
-    node.attr('x', function (d) { return d.x})
-      .attr('y', function (d) { return d.y })
+    // Anchor nodes so their center is on the x,y position
+    node
+      .attr('x', function (d) { return d.x - d.width / 2 })
+      .attr('y', function (d) { return d.y - d.height / 2})
+
+    // Text elements are anchored so that their center is on the nodes x,y
+    // position
     label
       .attr('x', function (node) { return node.x })
       .attr('y', function (node) { return node.y })
