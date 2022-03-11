@@ -15,3 +15,34 @@ html {
   overflow: hidden;
   width: 80vw;
 }
+
+.group {
+  cursor: move;
+  opacity: 0.7;
+  stroke: #ffffff;
+  stroke-width: 1.5px;
+}
+
+.group-label {
+  font-size: 24px;
+}
+
+.link {
+  stroke: #7a4e4e;
+  stroke-opacity: 1;
+  stroke-width: 3px;
+}
+
+.label {
+    cursor: move;
+    fill: #ffffff;
+    font-family: Verdana;
+    font-size: 14px;
+    text-anchor: middle;
+}
+
+.node {
+  cursor: move;
+  stroke: #ffffff;
+  stroke-width: 1.5px;
+}
