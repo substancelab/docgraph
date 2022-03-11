@@ -7,6 +7,12 @@
 class Document
   attr_reader :word_document
 
+  def category
+    return nil if name.nil?
+
+    name.split(".")[0]
+  end
+
   def initialize(word_document, metadata: nil)
     @metadata = metadata
     @word_document = word_document
@@ -23,7 +29,7 @@ class Document
   end
 
   def level
-    metadata["Document ID"]
+    category
   end
 
   def name
