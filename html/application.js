@@ -145,18 +145,16 @@ function layoutWithHierarchicalGrouping (graph, svg) {
 
     node.attr('x', function (d) { return d.x - d.width / 2 + pad })
       .attr('y', function (d) { return d.y - d.height / 2 + pad })
-
-    group.attr('x', function (d) { return d.bounds.x })
-      .attr('y', function (d) { return d.bounds.y })
-      .attr('width', function (d) { return d.bounds.width() })
-      .attr('height', function (d) { return d.bounds.height() })
-
     label.attr('x', function (d) { return d.x })
       .attr('y', function (d) {
         const h = this.getBBox().height
         return d.y + h / 4
       })
 
+    group.attr('x', function (d) { return d.bounds.x })
+      .attr('y', function (d) { return d.bounds.y })
+      .attr('width', function (d) { return d.bounds.width() })
+      .attr('height', function (d) { return d.bounds.height() })
     groupLabel
       .attr('x', function (d) {
         return d.bounds.x + d.padding
