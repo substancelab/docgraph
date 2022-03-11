@@ -102,7 +102,6 @@ function layoutWithHierarchicalGrouping (graph, svg) {
     .enter().append('text')
     .attr('class', 'group-label')
     .style('fill', 'black')
-    .style('font-size', '24px')
     .text(function (d) { return d.name })
 
   const link = svg.selectAll('.link')
@@ -130,7 +129,6 @@ function layoutWithHierarchicalGrouping (graph, svg) {
     .enter().append('text')
     .attr('class', 'label')
     .style('fill', 'black')
-    .style('font-size', '14px')
     .text(function (d) { return d.name })
     .call(cola.drag)
 
