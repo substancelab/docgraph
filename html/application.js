@@ -123,7 +123,7 @@ function layoutWithHierarchicalGrouping (graph, svg) {
     .attr('rx', 5).attr('ry', 5)
     .style('fill', function (d) { return color(groups.length) })
 
-  const label = svg.selectAll('.label')
+  const nodeLabel = svg.selectAll('.label')
     .data(graph.nodes)
     .enter().append('text')
     .attr('class', 'label')
@@ -147,7 +147,7 @@ function layoutWithHierarchicalGrouping (graph, svg) {
 
     // Text elements are anchored so that their center is on the nodes x,y
     // position
-    label
+    nodeLabel
       .attr('x', function (node) { return node.x })
       .attr('y', function (node) { return node.y })
 
