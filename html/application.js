@@ -20,7 +20,7 @@ const zoomToFit = function () {
 }
 
 function layoutWithHierarchicalGrouping (graph, svg) {
-  const groupPadding = 20
+  const groupPadding = 10
   const nodeMargin = 10
   const nodePadding = 20
 
@@ -109,13 +109,11 @@ function layoutWithHierarchicalGrouping (graph, svg) {
     .enter().append('rect')
     .attr('rx', 8).attr('ry', 8)
     .attr('class', 'group')
-    .style('fill', function (d, i) { return color(i) })
 
   const groupLabel = svg.selectAll('.group-label')
     .data(graph.groups)
     .enter().append('text')
     .attr('class', 'group-label')
-    .style('fill', 'black')
     .text(function (d) { return d.name })
 
   const link = svg.selectAll('.link')
@@ -130,7 +128,6 @@ function layoutWithHierarchicalGrouping (graph, svg) {
     .attr('width', function (d) { return d.width - nodeMargin * 2 })
     .attr('height', function (d) { return d.height - nodeMargin * 2 })
     .attr('rx', 5).attr('ry', 5)
-    .style('fill', function (d) { return color(groups.length) })
 
   const nodeLabelWrapper = d3
     .textwrap()
@@ -176,7 +173,7 @@ function layoutWithHierarchicalGrouping (graph, svg) {
         return d.bounds.x
       })
       .attr('y', function (d) {
-        return d.bounds.y
+        return d.bounds.y - groupPadding
       })
 
     zoomToFit()

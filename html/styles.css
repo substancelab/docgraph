@@ -1,5 +1,5 @@
 body {
-  background: #ffffff;
+  background: rgba(37, 120, 125, 1);
   font-family: Verdana;
   font-size: 14px;
   margin: 0;
@@ -20,20 +20,15 @@ html {
   width: 95vw;
 }
 
-.group {
-  opacity: 0.7;
-  stroke: #ffffff;
-  stroke-width: 1.5px;
-}
-
+.group,
 .group-label {
-  font-weight: bold;
+  fill: rgba(255, 255, 255, 1);
 }
 
 .link {
-  stroke: #7a4e4e;
+  stroke: #000000;
   stroke-opacity: 1;
-  stroke-width: 3px;
+  stroke-width: 1px;
 }
 
 .label {
@@ -41,6 +36,7 @@ html {
 }
 
 .node {
-  stroke: #ffffff;
-  stroke-width: 1.5px;
+  fill: rgba(221, 245, 241, 1);
+  stroke: #000000;
+  stroke-width: 1px;
 }
