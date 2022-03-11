@@ -3,6 +3,7 @@
 source "https://rubygems.org"
 
 gem "docx"
+gem "logging"
 gem "thor"
 
 group :development, :test do
