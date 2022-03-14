@@ -13,6 +13,7 @@ class DocmaCLI < Thor
   method_option :source, aliases: "-s", default: "./"
   method_option :destination, aliases: "-s", default: "./build"
   method_option :logfile, aliases: "-l"
+  method_option :verbose
   def build
     command = Build.new(options)
     command.call

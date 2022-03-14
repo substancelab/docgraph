@@ -97,6 +97,7 @@ class Build
 
     @logger = Logging.logger["log"]
     @logger.level = :info
+    @logger.level = :debug if options[:verbose]
 
     if options[:logfile]
       @logger.add_appenders(
