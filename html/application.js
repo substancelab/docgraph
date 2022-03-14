@@ -161,10 +161,15 @@ function layoutWithHierarchicalGrouping (graph, svg) {
     .text(function (d) { return d.name })
 
   cola.on('tick', function () {
+    // Nodes link from the child to the parent
     link.attr('x1', function (d) { return d.source.x })
-      .attr('y1', function (d) { return d.source.y })
+      .attr('y1', function (d) {
+        return d.source.y - d.source.height / 2 + nodeMargin
+      })
       .attr('x2', function (d) { return d.target.x })
-      .attr('y2', function (d) { return d.target.y })
+      .attr('y2', function (d) {
+        return d.target.y + d.target.height / 2 - nodeMargin
+      })
 
     // Anchor nodes so their center is on the x,y position
     node
