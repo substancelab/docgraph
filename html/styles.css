@@ -1,5 +1,6 @@
 body {
   background: rgba(37, 120, 125, 1);
+  background: rgba(255, 255, 255, 1);
   font-family: Verdana;
   font-size: 14px;
   margin: 0;
@@ -19,9 +20,13 @@ html {
   width: 100vw;
 }
 
-.group,
+
+.group {
+  fill: rgba(240, 240, 240, 1);
+}
+
 .group-label {
-  fill: rgba(255, 255, 255, 1);
+  fill: rgba(130, 130, 130, 1);
 }
 
 .link {
