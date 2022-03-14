@@ -160,11 +160,24 @@ function layoutWithHierarchicalGrouping (graph, svg) {
   node.append('title')
     .text(function (d) { return d.name })
 
+  // define arrow markers for child links
+  svg.append('svg:defs').append('svg:marker')
+    .attr('id', 'child-arrow')
+    .attr('viewBox', '0 -5 10 10')
+    .attr('refX', 6)
+    .attr('markerWidth', 9)
+    .attr('markerHeight', 9)
+    .attr('orient', 'auto')
+  .append('svg:path')
+    // .attr('d', 'M0,-5L10,0L0,5')
+    .attr('d', 'M10,-5L0,0L10,5')
+    .attr('fill', '#000');
+
   cola.on('tick', function () {
     // Nodes link from the child to the parent
     link.attr('x1', function (d) { return d.source.x })
       .attr('y1', function (d) {
-        return d.source.y - d.source.height / 2 + nodeMargin
+        return d.source.y - d.source.height / 2 + nodeMargin - 5
       })
       .attr('x2', function (d) { return d.target.x })
       .attr('y2', function (d) {

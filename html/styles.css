@@ -30,6 +30,7 @@ html {
 }
 
 .link {
+  marker-start: url(#child-arrow);
   stroke: #000000;
   stroke-opacity: 1;
   stroke-width: 1px;
