@@ -12,10 +12,13 @@ class WordDocumentRepository
   def_delegators :documents, :each, :map, :size
 
   class << self
-    def from_path(path)
-      word_documents = new
+    def from_path(path, logger: nil)
+      word_documents = new(logger: logger)
+      logger&.debug { "Collecting Word documents from #{path}" }
+
       document_paths = collect_document_paths(path)
       document_paths.each do |document_path|
+        logger&.debug { "- Collecting #{document_path}" }
         word_documents.add_from_path(document_path)
       end
 
@@ -35,7 +38,8 @@ class WordDocumentRepository
     documents << Docx::Document.open(path)
   end
 
-  def initialize
+  def initialize(logger: nil)
     @documents = []
+    @logger = logger
   end
 end

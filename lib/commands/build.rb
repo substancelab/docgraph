@@ -13,13 +13,14 @@ class Build
   attr_reader :options
 
   def call
-    word_documents = WordDocumentRepository.from_path(source)
+    word_documents = WordDocumentRepository.from_path(source, logger: logger)
 
-    logger.info { "Parsing #{word_documents.size} Word documents" }
+    logger.info { "Found #{word_documents.size} Word documents" } if logger
 
     documents = word_documents.map do |word_document|
       Document.new(word_document)
     end
+
     graph = build_graph(documents)
     # generate_javascript_file(graph)
     generate_json_file(graph)
