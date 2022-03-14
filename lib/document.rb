@@ -22,13 +22,7 @@ class Document
   def category
     return nil if name.nil?
 
-    name_without_parents = name
-    parent_names.each do |parent_name|
-      next unless name_without_parents.start_with?(parent_name)
-
-      name_without_parents = name_without_parents.sub("#{parent_name}.", "")
-    end
-    name_without_parents.split(".").compact[0]
+    name.split(".")[0]
   end
 
   def initialize(word_document, metadata: nil)
@@ -56,7 +50,7 @@ class Document
 
   def parent_names
     names = metadata["Parent policies"] || metadata["Parent(s)"] || ""
-    names.split(",").map(&:strip)
+    names.split(",")
   end
 
   def path

@@ -19,14 +19,5 @@ RSpec.describe Document do
       document = Document.new(:word_document, metadata: metadata)
       expect(document.category).to be(nil)
     end
-
-    it "removes parent names from the Document name before analyzing" do
-      metadata = {
-        "Document name" => "KeyPolicy.02.AML.Guideline.09.Monitoring",
-        "Parent(s)" => "Something.01.Else, KeyPolicy.02.AML",
-      }
-      document = Document.new(:word_document, metadata: metadata)
-      expect(document.category).to eq("Guideline")
-    end
   end
 end
