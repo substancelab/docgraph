@@ -56,6 +56,10 @@ class Document
     names.split(",").map(&:strip)
   end
 
+  def path
+    word_document.path
+  end
+
   def title
     metadata["Title"]
   end

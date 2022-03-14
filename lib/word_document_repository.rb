@@ -5,6 +5,22 @@ require "forwardable"
 
 # A collection of Word documents collected from source directory
 class WordDocumentRepository
+  # Decorates Docx::Documents with extra methods and data that we need
+  class WordDocument
+    extend Forwardable
+    def_delegators :document, :tables
+
+    attr_reader :path
+
+    def initialize(path)
+      @path = path
+    end
+
+    def document
+      @document ||= Docx::Document.open(path)
+    end
+  end
+
   extend Forwardable
 
   attr_reader :documents
@@ -35,7 +51,7 @@ class WordDocumentRepository
   end
 
   def add_from_path(path)
-    documents << Docx::Document.open(path)
+    documents << WordDocument.new(path)
   end
 
   def initialize(logger: nil)
