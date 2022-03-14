@@ -65,8 +65,8 @@ class Document
   def metadata
     @metadata ||= metadata_table.rows.map do |row|
       [
-        row.cells[0].text,
-        row.cells[1].text
+        row.cells[0].text&.strip,
+        row.cells[1].text&.strip
       ]
     end.to_h
   end
@@ -82,7 +82,7 @@ class Document
     return false unless table.rows.first.cells.size == 2
 
     expected_keys = ["Document ID", "Title"]
-    keys = table.rows.map { |row| row.cells.first.text }
+    keys = table.rows.map { |row| row.cells.first.text.strip }
     expected_keys.all? { |expected_key| keys.include?(expected_key) }
   end
 end
