@@ -47,7 +47,7 @@ class Document
   end
 
   def level
-    LEVELS.fetch(category)
+    LEVELS.fetch(category.tr(" ", ""))
   end
 
   def name
