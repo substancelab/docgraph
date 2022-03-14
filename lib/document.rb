@@ -5,6 +5,8 @@
 # It has no contents but contains only metadata related to the actual Word
 # document.
 class Document
+  class ParseError < RuntimeError; end
+
   attr_reader :word_document
 
   LEVELS = {
@@ -67,7 +69,12 @@ class Document
   private
 
   def metadata
-    @metadata ||= metadata_table.rows.map do |row|
+    return @metadata if @metadata
+
+    table = metadata_table
+    raise ParseError, "Could not find metadata in document #{path}" if table.nil?
+
+    @metadata = table.rows.map do |row|
       [
         row.cells[0].text&.strip,
         row.cells[1].text&.strip

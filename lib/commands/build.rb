@@ -53,6 +53,8 @@ class Build
         graph.add_edge(current_node, parent_node)
       end
     end
+  rescue Document::ParseError => error
+    logger.error { "Error parsing: #{error.inspect}" }
   end
 
   def build_graph(documents)
