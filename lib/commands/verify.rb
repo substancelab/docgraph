@@ -3,6 +3,18 @@
 require_relative "../word_document_repository"
 
 class Verify
+  class Result
+    ERROR = :error.freeze
+    OK = :ok.freeze
+
+    attr_reader :level, :message
+
+    def initialize(level, message)
+      @level = level
+      @message = message
+    end
+  end
+
   DOCUMENT_NAME_FORMAT = %r{^\w+\.\d+\..+$}.freeze
 
   attr_reader :options
@@ -15,9 +27,19 @@ class Verify
     end
 
     documents.each do |document|
-      puts "#{document.title} (#{document.path})"
-      run_verifications(document)
-      puts
+      results = run_verifications(document)
+
+      errors = results.select do |result|
+        result.level == Result::ERROR
+      end
+
+      if errors.any?
+        puts "#{document.title} (#{document.path})"
+        errors.each do |error|
+          puts format("[%-5s] %-70s", error.level.to_s.upcase, error.message)
+        end
+        puts
+      end
     end
   end
 
@@ -35,16 +57,49 @@ class Verify
 
   private
 
+  def category_matches_known_categories(document)
+    if category_matches_known_categories?(document)
+      Result.new(Result::OK, "Document category is a known category")
+    else
+      Result.new(
+        Result::ERROR,
+        "Couldn't find document category (#{document.category}) in the list of"\
+        "known categories."
+      )
+    end
+  end
+
   def category_matches_known_categories?(document)
     category = document.category
 
     Document::LEVELS.keys.include?(category)
   end
 
+  def document_has_metadata(document)
+    if document.metadata?
+      Result.new(Result::OK, "Document metadata found")
+    else
+      Result.new(Result::ERROR, "No metadata table found")
+    end
+  end
+
   def run_verifications(document)
-    puts "- Metadata table found: #{document.metadata?}"
-    puts "- Name matches format: #{name_matches_format?(document)}"
-    puts "- Category is known: #{category_matches_known_categories?(document)}"
+    results = []
+    results << document_has_metadata(document)
+    results << name_matches_format(document)
+    results << category_matches_known_categories(document)
+    results
+  end
+
+  def name_matches_format(document)
+    if name_matches_format?(document)
+      Result.new(Result::OK, "Document name matches expected format")
+    else
+      Result.new(
+        Result::ERROR,
+        "Document name (#{document.name}) does not match the expected format"
+      )
+    end
   end
 
   def name_matches_format?(document)
