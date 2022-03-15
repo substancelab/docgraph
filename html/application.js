@@ -41,7 +41,6 @@ const zoomToFit = function () {
 function layoutWithHierarchicalGrouping (graph, svg) {
   if (!svg) { return }
 
-  const color = d3.scaleLinear().domain([1, 10]).range(['lightBlue', 'blue'])
   const cola = webcola.d3adaptor(d3)
     .linkDistance(80)
     .avoidOverlaps(true)
