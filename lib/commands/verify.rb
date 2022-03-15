@@ -63,8 +63,8 @@ class Verify
     else
       Result.new(
         Result::ERROR,
-        "Couldn't find document category (#{document.category}) in the list of"\
-        "known categories."
+        "Couldn't find document category (#{document.category}) in the list " \
+        "of known categories."
       )
     end
   end
