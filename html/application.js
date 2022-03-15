@@ -4,6 +4,19 @@ import * as webcola from 'webcola'
 import { textwrap } from 'd3-textwrap';
 d3.textwrap = textwrap;
 
+const Layout = {
+  group: {
+    margin: 50,
+    padding: 10
+  },
+  node: {
+    height: 90,
+    margin: 10,
+    padding: 20,
+    width: 300
+  }
+}
+
 const handleZoom = function (event) {
   d3
     .select('svg g')
@@ -28,16 +41,6 @@ const zoomToFit = function () {
 function layoutWithHierarchicalGrouping (graph, svg) {
   if (!svg) { return }
 
-  const groupMargin = 50
-  const groupPadding = 10
-  const nodeMargin = 10
-  const nodePadding = 20
-
-  const nodeDimensions = {
-    height: 90,
-    width: 300
-  }
-
   const color = d3.scaleLinear().domain([1, 10]).range(['lightBlue', 'blue'])
   const cola = webcola.d3adaptor(d3)
     .linkDistance(80)
@@ -45,13 +48,13 @@ function layoutWithHierarchicalGrouping (graph, svg) {
     .size([3000, 4000])
 
   graph.nodes.forEach(function (v) {
-    v.width = nodeDimensions.width
-    v.height = nodeDimensions.height
+    v.width = Layout.node.width
+    v.height = Layout.node.height
   })
 
   const groups = graph.groups || []
   groups.forEach(function (g) {
-    g.padding = groupPadding
+    g.padding = Layout.group.padding
   })
 
   const constraints = []
@@ -80,7 +83,7 @@ function layoutWithHierarchicalGrouping (graph, svg) {
         axis: 'x',
         left: nodesInPreviousGroup[0],
         right: nodesInThisGroup[0],
-        gap: nodeDimensions.width + groupMargin
+        gap: Layout.node.width + Layout.group.margin
       })
     }
     previousGroup = group
@@ -135,15 +138,15 @@ function layoutWithHierarchicalGrouping (graph, svg) {
     .data(graph.nodes)
     .enter().append('rect')
     .attr('class', 'node')
-    .attr('width', function (d) { return d.width - nodeMargin * 2 })
-    .attr('height', function (d) { return d.height - nodeMargin * 2 })
+    .attr('width', function (d) { return d.width - Layout.node.margin * 2 })
+    .attr('height', function (d) { return d.height - Layout.node.margin * 2 })
     .attr('rx', 5).attr('ry', 5)
 
   const nodeLabelWrapper = d3
     .textwrap()
     .bounds({
-      height: nodeDimensions.height - nodePadding * 2,
-      width: nodeDimensions.width - nodePadding * 2
+      height: Layout.node.height - Layout.node.padding * 2,
+      width: Layout.node.width - Layout.node.padding * 2
     })
     .method("tspans")
   const nodeLabel = graphOutlet.selectAll('.label')
@@ -176,21 +179,21 @@ function layoutWithHierarchicalGrouping (graph, svg) {
       .attr('y1', function (d) {
         return d.source.y
       })
-      .attr('x2', function (d) { return d.target.x + d.target.width / 2 - nodeMargin })
+      .attr('x2', function (d) { return d.target.x + d.target.width / 2 - Layout.node.margin })
       .attr('y2', function (d) {
         return d.target.y
       })
 
     // Anchor nodes so their center is on the x,y position
     node
-      .attr('x', function (d) { return d.x - d.width / 2 + nodeMargin })
-      .attr('y', function (d) { return d.y - d.height  / 2 + nodeMargin })
+      .attr('x', function (d) { return d.x - d.width / 2 + Layout.node.margin })
+      .attr('y', function (d) { return d.y - d.height  / 2 + Layout.node.margin })
 
     // Text elements are anchored so that their top left corner is on the nodes
     // x,y position + padding
     nodeLabel
-      .attr('x', function (node) { return node.x - node.width / 2 + nodeMargin + nodePadding })
-      .attr('y', function (node) { return node.y - node.height / 2 + nodeMargin + nodePadding })
+      .attr('x', function (node) { return node.x - node.width / 2 + Layout.node.margin + Layout.node.padding })
+      .attr('y', function (node) { return node.y - node.height / 2 + Layout.node.margin + Layout.node.padding })
 
     group.attr('x', function (d) { return d.bounds.x })
       .attr('y', function (d) { return d.bounds.y })
@@ -201,7 +204,7 @@ function layoutWithHierarchicalGrouping (graph, svg) {
         return d.bounds.x
       })
       .attr('y', function (d) {
-        return d.bounds.y - groupPadding
+        return d.bounds.y - Layout.group.padding
       })
 
     zoomToFit()
