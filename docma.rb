@@ -4,6 +4,7 @@ require "thor"
 
 require_relative "lib/commands/build"
 require_relative "lib/commands/metadata"
+require_relative "lib/commands/verify"
 
 class DocmaCLI < Thor
   desc \
@@ -26,6 +27,15 @@ class DocmaCLI < Thor
   method_option :source, aliases: "-s", default: "./"
   def metadata
     command = Metadata.new(options)
+    command.call
+  end
+
+  desc \
+    "verify",
+    "Analyze and verify documents in a source directory."
+  method_option :source, aliases: "-s", default: "./"
+  def verify
+    command = Verify.new(options)
     command.call
   end
 

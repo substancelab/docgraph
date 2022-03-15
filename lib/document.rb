@@ -44,6 +44,11 @@ class Document
     LEVELS.fetch(category.tr(" ", ""))
   end
 
+  # Returns true if Document has a metadata table
+  def metadata?
+    !metadata_table.nil?
+  end
+
   def name
     metadata["Document name"]
   end
