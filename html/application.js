@@ -76,15 +76,11 @@ function layoutWithHierarchicalGrouping (graph, svg) {
       const nodesInPreviousGroup = previousGroup.leaves
       const nodesInThisGroup = group.leaves
 
-      nodesInThisGroup.forEach((thisNode) => {
-        nodesInPreviousGroup.forEach((otherNode) => {
-          constraints.push({
-            axis: 'x',
-            left: otherNode,
-            right: thisNode,
-            gap: nodeDimensions.width + groupMargin
-          })
-        })
+      constraints.push({
+        axis: 'x',
+        left: nodesInPreviousGroup[0],
+        right: nodesInThisGroup[0],
+        gap: nodeDimensions.width + groupMargin
       })
     }
     previousGroup = group
