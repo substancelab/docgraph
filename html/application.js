@@ -17,6 +17,44 @@ const Layout = {
   }
 }
 
+const generateConstraints = function (groups) {
+  const constraints = []
+  let previousGroup
+  groups.forEach((group) => {
+    const constraint = {
+      type: 'alignment',
+      axis: 'x',
+      offsets: []
+    }
+
+    group.leaves.forEach((leaf) => {
+      constraint.offsets.push({
+        node: leaf,
+        offset: 0
+      })
+    })
+
+    // Add an inequality constraint for all nodes in this group saying there
+    // must be a gap on the x axis between all nodes in the previous group
+    if (previousGroup) {
+      const nodesInPreviousGroup = previousGroup.leaves
+      const nodesInThisGroup = group.leaves
+
+      constraints.push({
+        axis: 'x',
+        left: nodesInPreviousGroup[0],
+        right: nodesInThisGroup[0],
+        gap: Layout.node.width + Layout.group.margin
+      })
+    }
+    previousGroup = group
+
+    constraints.push(constraint)
+  })
+
+  return constraints
+}
+
 const handleZoom = function (event) {
   d3
     .select('svg g')
@@ -56,39 +94,7 @@ function layoutWithHierarchicalGrouping (graph, svg) {
     g.padding = Layout.group.padding
   })
 
-  const constraints = []
-  let previousGroup
-  groups.forEach((group) => {
-    const constraint = {
-      type: 'alignment',
-      axis: 'x',
-      offsets: []
-    }
-
-    group.leaves.forEach((leaf) => {
-      constraint.offsets.push({
-        node: leaf,
-        offset: 0
-      })
-    })
-
-    // Add an inequality constraint for all nodes in this group saying there
-    // must be a gap on the x axis between all nodes in the previous group
-    if (previousGroup) {
-      const nodesInPreviousGroup = previousGroup.leaves
-      const nodesInThisGroup = group.leaves
-
-      constraints.push({
-        axis: 'x',
-        left: nodesInPreviousGroup[0],
-        right: nodesInThisGroup[0],
-        gap: Layout.node.width + Layout.group.margin
-      })
-    }
-    previousGroup = group
-
-    constraints.push(constraint)
-  })
+  const constraints = generateConstraints(groups)
 
   const centerGraph = true
   const gridSnapIterations = 50
