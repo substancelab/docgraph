@@ -13,6 +13,7 @@ class Document
     "Strategy" => 1,
     "Charter" => 2,
     "KeyPolicy" => 3,
+    "Policy" => 3,
     "Guideline" => 4,
     "Process" => 5,
     "Procedure" => 6,
