@@ -28,6 +28,7 @@ const zoomToFit = function () {
 function layoutWithHierarchicalGrouping (graph, svg) {
   if (!svg) { return }
 
+  const groupMargin = 50
   const groupPadding = 10
   const nodeMargin = 10
   const nodePadding = 20
@@ -58,7 +59,7 @@ function layoutWithHierarchicalGrouping (graph, svg) {
   groups.forEach((group) => {
     const constraint = {
       type: 'alignment',
-      axis: 'y',
+      axis: 'x',
       offsets: []
     }
 
@@ -70,7 +71,7 @@ function layoutWithHierarchicalGrouping (graph, svg) {
     })
 
     // Add an inequality constraint for all nodes in this group saying there
-    // must be a 150 pixels gap on the y axis between all nodes in the previous group
+    // must be a gap on the x axis between all nodes in the previous group
     if (previousGroup) {
       const nodesInPreviousGroup = previousGroup.leaves
       const nodesInThisGroup = group.leaves
@@ -78,10 +79,10 @@ function layoutWithHierarchicalGrouping (graph, svg) {
       nodesInThisGroup.forEach((thisNode) => {
         nodesInPreviousGroup.forEach((otherNode) => {
           constraints.push({
-            axis: 'y',
+            axis: 'x',
             left: otherNode,
             right: thisNode,
-            gap: 150
+            gap: nodeDimensions.width + groupMargin
           })
         })
       })
@@ -175,13 +176,13 @@ function layoutWithHierarchicalGrouping (graph, svg) {
 
   cola.on('tick', function () {
     // Nodes link from the child to the parent
-    link.attr('x1', function (d) { return d.source.x })
+    link.attr('x1', function (d) { return d.source.x - d.source.width / 2 })
       .attr('y1', function (d) {
-        return d.source.y - d.source.height / 2 + nodeMargin - 5
+        return d.source.y
       })
-      .attr('x2', function (d) { return d.target.x })
+      .attr('x2', function (d) { return d.target.x + d.target.width / 2 - nodeMargin })
       .attr('y2', function (d) {
-        return d.target.y + d.target.height / 2 - nodeMargin
+        return d.target.y
       })
 
     // Anchor nodes so their center is on the x,y position
