@@ -41,7 +41,7 @@ class Document
   end
 
   def level
-    LEVELS.fetch(category.tr(" ", ""))
+    LEVELS.fetch(category.tr(" ", ""), 99)
   end
 
   # Returns true if Document has a metadata table
