@@ -13,3 +13,27 @@ The Docker image is based on https://github.com/phusion/passenger-docker, which 
 ## Operation
 
 The Docker container runs `docma build` every minute, looking for files in `/home/app/documents`, outputting the generated site in `/home/app/results`.
+
+### Assumptions
+
+The examples here assume...
+
+- That port 2222 is forwarded to port 22 on the container
+- The private key is present at `docker/ssh/keys/app`
+- The source documents are available in ~/source
+
+### SSH access
+
+SSH access is available for the app user. A default public key is installed, and using the corresponding private key SSH access can be gained:
+
+    $ ssh app@localhost -p 2222 -i docker/ssh/keys/app
+
+Every new build of the container includes a new, unique host key. Automated scripts need to take this into account and refresh their host key if it has changed.
+
+### Synchronizing documents
+
+Using rsync to keep the list of documents synchronized is recommended:
+
+    $ rsync --archive --delete --recursive -e 'ssh -p 2222 -i docker/ssh/keys/app' ~/source/ app@localhost:~/documents/
+
+This keeps the documents in the container synchronized with the documents in ~/source, deleting any files from the destination that may have been deleted on the source, uploading all updated files.

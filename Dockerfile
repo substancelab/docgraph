@@ -6,6 +6,10 @@ RUN /pd_build/ruby-3.0.*.sh
 # Install NodeJS
 RUN /pd_build/nodejs.sh
 
+# Install RSync
+RUN apt-get update
+RUN apt-get install rsync
+
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
