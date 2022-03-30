@@ -37,3 +37,9 @@ Using rsync to keep the list of documents synchronized is recommended:
     $ rsync --archive --delete --recursive -e 'ssh -p 2222 -i docker/ssh/keys/app' ~/source/ app@localhost:~/documents/
 
 This keeps the documents in the container synchronized with the documents in ~/source, deleting any files from the destination that may have been deleted on the source, uploading all updated files.
+
+### Getting the logfile
+
+Every run of docma in the container generates a logfile in `~/logs/docma.log`. A logfile from the internal cron daemon is also availabe in `~/logs/cron.log`. The logfiles can be copied from the container using scp:
+
+    $ scp -i docker/ssh/keys/app -P 2222 app@localhost:~/logs/\* logs
