@@ -34,6 +34,9 @@ RUN rm -f /etc/service/sshd/down
 COPY docker/ssh/sshd_config.d/* /etc/ssh/sshd_config.d/
 RUN echo "Include /etc/ssh/sshd_config.d/*.conf" >> /etc/ssh/sshd_config
 
+# Generate a SSH host keys.
+RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
+
 # Allow SSH access for the app user
 COPY docker/ssh/keys/app.pub /home/app/.ssh/app.pub
 RUN cat /home/app/.ssh/app.pub >> /home/app/.ssh/authorized_keys
